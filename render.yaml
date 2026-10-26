@@ -1,0 +1,24 @@
+# Blueprint do Render — Tequeño Loco (site estático / PWA)
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: tequeno-loco
+    runtime: static
+    branch: main
+    # site 100% estático: nada para "buildar"
+    buildCommand: ""
+    # raiz do repositório contém o index.html
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: true
+    headers:
+      # o navegador precisa revalidar o service worker
+      - path: /sw.js
+        name: Cache-Control
+        value: no-cache
+      - path: /sw.js
+        name: Service-Worker-Allowed
+        value: /
+      # garante MIME correto do manifest
+      - path: /manifest.json
+        name: Content-Type
+        value: application/manifest+json
